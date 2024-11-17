@@ -48,19 +48,21 @@ with cols[0]:
 
 with cols[1]:
     st.markdown("**Structure | Nodes**")
-    title_space = st.number_input("Title space", 1, 3, Params.title_space, 1)
-    node_height = st.number_input("Node | Height", 1, 4, Params.node_height, 1)
-    node_width = st.number_input("Node | Width", 1, 4, Params.node_width, 1)
+    title_space = st.number_input("Title space", 0.1, 10.0, Params.title_space, 0.1)
+    node_height = st.number_input(
+        "Node | Height Multiplier", 0.5, 10.0, Params.node_height, 0.1
+    )
+    node_width = st.number_input("Node | Width", 0.5, 10.0, Params.node_width, 0.1)
     node_height_gap = st.number_input(
-        "Node | Vertical Spacing", 1, 4, Params.node_height_gap, 1
+        "Node | Vertical Spacing", 0.1, 10.0, Params.node_height_gap, 0.1
     )
     node_width_gap = st.number_input(
-        "Node | Horizontal Spacing", 1, 4, Params.node_width_gap, 1
+        "Node | Horizontal Spacing", 0.1, 10.0, Params.node_width_gap, 0.1
     )
 
 with cols[2]:
     st.markdown("**Structure | Flows**")
-    flow_gap = st.number_input("Flow | Width", 1, 8, Params.flow_gap, 1)
+    flow_gap = st.number_input("Flow | Width", 1.0, 8.0, Params.flow_gap, 0.1)
     flow_alpha = st.number_input(
         "Flow | Transparency", 0.3, 0.9, Params.flow_alpha, 0.05, format="%0.2f"
     )

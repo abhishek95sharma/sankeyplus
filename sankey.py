@@ -7,13 +7,13 @@ import bezier
 
 
 class Params:
-    title_space = 1
+    title_space = 1.0
+    node_height = 6.0
+    node_width = 2.0
+    flow_gap = 5.0
     corner_pad = 1
-    node_height = 2
-    node_width = 2
-    flow_gap = 5
-    node_height_gap = 1
-    node_width_gap = 1
+    node_height_gap = 1.0
+    node_width_gap = 1.0
     figsize = (10, 5)
     fontsize_node = 6.0
     fontsize_flow = 4.5
@@ -50,12 +50,18 @@ def get_sankey_structure(df_nodes, df_layers, df_structure, params=Params()):
         * (params.node_width + params.node_width_gap + params.flow_gap)
         + params.node_width
     )
-    df_structure["Y_min"] = df_structure["Node number"] * (
-        params.node_height + params.node_height_gap
+    df_structure["Y_min"] = (
+        df_structure["Node number"] * (params.node_height + params.node_height_gap)
+        + params.node_height
+        * (1 - df_structure["Value"] / df_structure["Value"].max())
+        * 0.5
     )
     df_structure["Y_max"] = (
         df_structure["Node number"] * (params.node_height + params.node_height_gap)
+        + params.node_height * df_structure["Value"] / df_structure["Value"].max()
         + params.node_height
+        * (1 - df_structure["Value"] / df_structure["Value"].max())
+        * 0.5
     )
 
     X_den = df_structure["X_max"].max() + 2 * params.corner_pad
