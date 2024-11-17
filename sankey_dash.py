@@ -37,7 +37,7 @@ with st.form("data_editor"):
 # ---
 st.subheader("Sankey Diagram Parameters:")
 
-cols = st.columns(3)
+cols = st.columns(4)
 with cols[0]:
     st.markdown("**Size**")
     figsize_x = st.number_input("Width", 1, 10, Params.figsize[0], 1)
@@ -47,7 +47,7 @@ with cols[0]:
 
 
 with cols[1]:
-    st.markdown("**Structure**")
+    st.markdown("**Structure | Nodes**")
     title_space = st.number_input("Title space", 1, 3, Params.title_space, 1)
     node_height = st.number_input("Node | Height", 1, 4, Params.node_height, 1)
     node_width = st.number_input("Node | Width", 1, 4, Params.node_width, 1)
@@ -57,12 +57,18 @@ with cols[1]:
     node_width_gap = st.number_input(
         "Node | Horizontal Spacing", 1, 4, Params.node_width_gap, 1
     )
+
+with cols[2]:
+    st.markdown("**Structure | Flows**")
     flow_gap = st.number_input("Flow | Width", 1, 8, Params.flow_gap, 1)
     flow_alpha = st.number_input(
         "Flow | Transparency", 0.3, 0.9, Params.flow_alpha, 0.05, format="%0.2f"
     )
+    curve = st.number_input(
+        "Flow | Curvature", 0.0, 1.0, Params.curve, 0.05, format="%0.2f"
+    )
 
-with cols[2]:
+with cols[3]:
     st.markdown("**Font Size**")
     fontsize_node = st.number_input(
         "Node | Font size", 4.0, 12.0, Params.fontsize_node, 0.5, format="%0.1f"
@@ -84,6 +90,7 @@ class Params:
     fontsize_node = fontsize_node
     fontsize_flow = fontsize_flow
     flow_alpha = flow_alpha
+    curve = curve
 
 
 params = Params()

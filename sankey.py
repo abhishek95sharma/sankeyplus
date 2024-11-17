@@ -3,6 +3,7 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import bezier
 
 
 class Params:
@@ -17,6 +18,7 @@ class Params:
     fontsize_node = 6.0
     fontsize_flow = 4.5
     flow_alpha = 0.65
+    curve = 0.65
 
 
 def get_sankey_structure(df_nodes, df_layers, df_structure, params=Params()):
@@ -221,12 +223,43 @@ def make_flow(
     y_end_band,
     color,
     alpha,
+    curve,
     border_color="none",
 ):
+    bezier_curve = bezier.Curve(
+        np.asfortranarray(
+            [
+                [0.0, curve, 0.5, 1.0 - curve, 1.0],
+                [0.0, 0.0, 0.5, 1.0, 1.0],
+            ]
+        ),
+        degree=4,
+    )
+    n = 100
+    bezier_curve_evaluated = bezier_curve.evaluate_multi(np.linspace(0, 1, n))
+    import streamlit as st
+
+    X = x_start + bezier_curve_evaluated[0] * ((x_end - x_start))
+    Y = y_start + bezier_curve_evaluated[1] * ((y_end - y_start))
+    Y_band = np.linspace(y_start_band, y_end_band, n)
+
+    # st.write(X)
+    # st.write(Y)
+    # st.write(Y_upper)
+    # st.write(Y_lower)
+    # st.write([x_start, x_end])
+    # st.write([y_start - y_start_band, y_end - y_end_band])
+    # st.write([y_start + y_start_band, y_end + y_end_band])
+
+    # st.write("dffdsfdfg")
+
     plt.fill_between(
-        [x_start, x_end],
-        [y_start - y_start_band, y_end - y_end_band],
-        [y_start + y_start_band, y_end + y_end_band],
+        # [x_start, x_end],
+        # [y_start - y_start_band, y_end - y_end_band],
+        # [y_start + y_start_band, y_end + y_end_band],
+        X,
+        Y - Y_band,
+        Y + Y_band,
         alpha=alpha,
         color=color,
         edgecolor=border_color,
@@ -313,6 +346,7 @@ def make_sankey_diagram(df_structure, df_flows, params=Params()):
             row["End_Y_band"],
             row["Color"],
             params.flow_alpha,
+            params.curve,
         )
 
         write_flow_text = lambda text, bold=False: write_text(
