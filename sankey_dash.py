@@ -21,16 +21,16 @@ with st.form("data_editor"):
     )
 
     with st_tab_layers:
-        st.data_editor(df_layers, use_container_width=True, hide_index=True, num_rows= "dynamic")
+        df_layers = st.data_editor(df_layers, use_container_width=True, hide_index=True, num_rows= "dynamic")
 
     with st_tab_nodes:
-        st.data_editor(df_nodes, use_container_width=True, hide_index=True, num_rows= "dynamic")
+        df_nodes = st.data_editor(df_nodes, use_container_width=True, hide_index=True, num_rows= "dynamic")
 
     with st_tab_structure:
-        st.data_editor(df_structure, use_container_width=True, hide_index=True, num_rows= "dynamic")
+        df_structure = st.data_editor(df_structure, use_container_width=True, hide_index=True, num_rows= "dynamic")
 
     with st_tab_flows:
-        st.data_editor(df_flows, use_container_width=True, hide_index=True, num_rows= "dynamic")
+        df_flows = st.data_editor(df_flows, use_container_width=True, hide_index=True, num_rows= "dynamic")
 
     submit_button = st.form_submit_button("Submit")
 
